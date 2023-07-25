@@ -5,6 +5,10 @@ use rocket::fs::NamedFile;
 use rocket_dyn_templates::{Template, tera::Tera, context};
 use std::io;
 use std::fs;
+use std::fs::File;
+use rocket::http::RawStr;
+use rocket::response::status::NotFound;
+
 
 #[catch(404)]
 pub fn not_found(req: &Request<'_>) -> Template {
@@ -12,10 +16,40 @@ pub fn not_found(req: &Request<'_>) -> Template {
         uri: req.uri()
     })
 }
-
+/*
 #[get("/blog/<article>")]
-pub async fn article(article: PathBuf) -> Option<NamedFile> {
-    NamedFile::open(Path::new("blog/").join(article)).await.ok()
+pub fn article(article: PathBuf) -> Template {
+    let file_name = article.as_path().display().to_string();
+    let path: PathBuf = [r"blog/",&file_name].iter().collect();
+    println!("{}",path.display());
+    let content: String = fs::read_to_string(path.as_path()).unwrap();
+    let parser = pulldown_cmark::Parser::new(&content);
+    let mut data = String::new();
+    pulldown_cmark::html::push_html(&mut data, parser);
+    println!("{}",data);
+    Template::render("blog/article", context! {
+        content: data
+    })
+}
+*/
+#[get("/blog/<article>")]
+pub async fn article(article: PathBuf) -> Result<NamedFile, NotFound<String>> {
+    let path = Path::new("blog/").join(article);
+    NamedFile::open(&path).await.map_err(|e| NotFound(e.to_string()))
+}
+
+
+#[get("/api")]
+pub fn api() -> &'static str {
+    "FUCK YOU!!!!!!!!!!!!!!!!!!!!"
+}
+
+#[get("/api/<id>")]
+pub fn api_id(id: Result<u8, &str>) -> String {
+    match id {
+        Ok(id_num) => format!("u8: {}", id_num),
+        Err(string) => format!("not a u8: {}", string)
+    }
 }
 
 #[get("/blog")]
