@@ -16,11 +16,12 @@ fn index() -> &'static str {
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![blog::index, blog::article, blog::api, blog::api_id])
-        .mount("/", routes![index])
-        .mount("/static", FileServer::from("static/"))
-
-        .register("/", catchers![blog::not_found])
+        .mount("/", routes![blog::api, blog::api_id])
+        //.mount("/", routes![blog::index, blog::article, blog::api, blog::api_id])
+        //.mount("/", routes![index])
+        //.mount("/", FileServer::from("static/"))
+        .mount("/", FileServer::from("blog/"))
+        //.register("/", catchers![blog::not_found])
         .attach(Template::fairing())
 }
 

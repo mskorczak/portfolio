@@ -12,7 +12,7 @@ use rocket::response::status::NotFound;
 
 #[catch(404)]
 pub fn not_found(req: &Request<'_>) -> Template {
-    Template::render("blog/error/404", context! {
+    Template::render("error/404", context! {
         uri: req.uri()
     })
 }
@@ -31,14 +31,29 @@ pub fn article(article: PathBuf) -> Template {
         content: data
     })
 }
-*/
 #[get("/blog/<article>")]
 pub async fn article(article: PathBuf) -> Result<NamedFile, NotFound<String>> {
     let path = Path::new("blog/").join(article);
     NamedFile::open(&path).await.map_err(|e| NotFound(e.to_string()))
 }
+*/
 
-
+//#[get("/blog/<article>")]
+pub async fn article(article:PathBuf) -> String {
+    let file_name = article.as_path().display().to_string();
+    let path: PathBuf = [r"blog/", &file_name].iter().collect();
+    let content = fs::read_to_string(path.as_path());
+    match content {
+        Ok(content_string) => format!("{}", content_string),
+        Err(error) => format!("ERROR: {}", error)
+    }
+    /*match content {
+        Ok(content_string) => Template::render("blogpost", context! {content:content_string}),
+        Err(error) => Template::render("error", context! {
+            content : format!("ERROR:{}",error)
+        })
+    }*/
+}
 #[get("/api")]
 pub fn api() -> &'static str {
     "FUCK YOU!!!!!!!!!!!!!!!!!!!!"
@@ -51,8 +66,7 @@ pub fn api_id(id: Result<u8, &str>) -> String {
         Err(string) => format!("not a u8: {}", string)
     }
 }
-
-#[get("/blog")]
+//#[get("/blog")]
 pub fn index() -> Template {
 
     let file_names: Vec<_> = fs::read_dir("blog/")
@@ -61,11 +75,10 @@ pub fn index() -> Template {
         .map(|e| e.path())
         .collect();
     
-    Template::render("blog/index", context! {
+    Template::render("index", context! {
         items: file_names
     })
 }
-
 pub fn customize(tera: &mut Tera) {
     tera.add_raw_template("tera/about.html", r#"
         {% extends "tera/base" %}
