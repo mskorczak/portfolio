@@ -1,9 +1,0 @@
-{% block content %}
-	<h1> Blog Index </h1>
-	<ul>
-		{% for i in items %}
-			<li><a href="{{ i }}"/>{{ i }}</li>
-		{% endfor %}
-	</ul>
-{% endblock content %}
-

@@ -1,3 +1,6 @@
+<!DOCTYPE HTML>
+<p><b><u>2023-09-05</u></b></p>
+
 Lets just pretend that this could be the first article that I have ever written.
 
 I want to use some extra parts here for flavour, but it seems unnesseary.\n
@@ -10,8 +13,8 @@ Ideally, above it should be showing a header of sorts. I'll check back on that t
 
 Actually, what would make more sense is to just use HTMX and have these blog posts be read and sent back via hx-get!
 
-Watch this: 
+Watch this:
 
 <br>
 
-<button hx-get="/api/this_wont_work">What is this now?</button>
+<button hx-get="/api">What is this now?</button>

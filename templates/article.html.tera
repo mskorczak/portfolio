@@ -1,5 +1,2 @@
-{% block content %}
-	<h1> Article </h1>
-	{{ content }}
-{% endblock content %}
-
+{{ title }}
+{{ content }}

@@ -1,0 +1,6 @@
+<h1> Blog Index </h1>
+<ul>
+	{% for i in items %}
+		<li><a href="" hx-get="/article/{{ i }}" hx-target="#content" hx-swap="innerHTML">{{ i }}</li>
+	{% endfor %}
+</ul>
