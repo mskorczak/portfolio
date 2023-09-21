@@ -1,6 +1,6 @@
 <h1> Blog Index </h1>
 <ul>
-	{% for i in items %}
-		<li><a href="" hx-get="/article/{{ i }}" hx-target="#content" hx-swap="innerHTML">{{ i }}</li>
+	{% for name in file_names %}
+		<li><a href="" hx-get="/article/{{ name }}" hx-target="#content" hx-swap="innerHTML">{{ name | replace(from=".html", to="") }}</li>
 	{% endfor %}
 </ul>

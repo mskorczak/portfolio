@@ -31,15 +31,17 @@ pub fn api_id(id: Result<u8, &str>) -> String {
 }
 #[get("/blog")]
 pub fn blog() -> Template {
-    let mut file_names: Vec<String> = vec![];
+    let mut filenames: Vec<String> = vec![];
     for file in fs::read_dir("blog/").unwrap() {
         match file {
-            Ok(filename) => file_names.push(format!("{}", filename.file_name().into_string().unwrap())),
-            Err(error) => file_names.push(format!("Error loading blog post."))
+            Ok(filename) => {
+                filenames.push(format!("{}", filename.file_name().into_string().unwrap()));
+            },
+            Err(error) => filenames.push(format!("Error loading blog post."))
         }
     }
     Template::render("blog", context! {
-        items: file_names
+        file_names: filenames
     })
 }
 
