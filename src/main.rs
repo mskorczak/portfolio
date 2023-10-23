@@ -16,7 +16,7 @@ fn index() -> &'static str {
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![blog::api, blog::api_id, blog::blog, blog::home, blog::article])
+        .mount("/", routes![blog::api, blog::api_id, blog::blog, blog::home, blog::article, blog::resume])
         //.mount("/", routes![index])
         .mount("/", FileServer::from("static/"))
         //.mount("/", FileServer::from("blog/"))

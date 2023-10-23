@@ -57,6 +57,11 @@ pub fn home() -> Template {
     Template::render("home",context! {})
 }
 
+#[get("/resume")]
+pub fn resume() -> Template {
+    Template::render("resume",context! {})
+}
+
 pub fn customize(tera: &mut Tera) {
     tera.add_raw_template("tera/about.html", r#"
         {% extends "tera/base" %}
